@@ -38,14 +38,6 @@
     th {
       background-color: #f2f2f2;
     }
-    .slider-container {
-      margin-top: 10px;
-    }
-    .range-labels {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 5px;
-    }
   </style>
 </head>
 <body>
@@ -53,8 +45,8 @@
   <h1>Marketing Research Project Survey</h1>
 
   <!-- Netlify Form -->
-  <form name="marketing-survey" method="POST" data-netlify="true" onsubmit="submitSurvey(event)">
-    <!-- Basic Information -->
+  <form name="marketing-survey" method="POST" data-netlify="true">
+    <!-- Step 1: Basic Information -->
     <div class="question" id="step1">
       <label for="name">Name:</label><br>
       <input type="text" id="name" name="name" placeholder="Enter your name" required><br><br>
@@ -86,8 +78,15 @@
       <button type="button" onclick="goToStep(3)">Next</button>
     </div>
 
-    <!-- Step 3: Willingness-to-Pay Questions -->
+    <!-- Step 3: Paid Subscription Question -->
     <div class="question hidden" id="step3">
+      <label>Do you have a paid subscription (as the payee) for the platforms you selected?</label><br>
+      <div id="subscriptionOptions"></div>
+      <button type="button" onclick="goToStep(4)">Next</button>
+    </div>
+
+    <!-- Step 4: Willingness-to-Pay Questions -->
+    <div class="question hidden" id="step4">
       <h2>Refer to this data before answering the questions:</h2>
       <table>
         <thead>
@@ -136,38 +135,17 @@
         </tbody>
       </table>
 
-      <!-- TV Show Slider -->
-      <label>How much would you be willing to pay for a TV show, if payment was on a pay-per-use basis?</label>
-      <div class="slider-container">
-        <input type="range" id="wtpShow" name="wtpShow" min="0" max="25" step="0.5" value="12.5" oninput="updateLabel('showPrice', this.value)">
-        <div class="range-labels">
-          <span>$0</span>
-          <span id="showPrice">$12.5</span>
-          <span>$25</span>
-        </div>
-      </div><br>
+      <label>How much would you be willing to pay for a TV show, if payment was on a pay-per-use basis?</label><br>
+      <input type="range" id="wtpShow" name="wtpShow" min="0" max="25" step="0.5" value="12.5" oninput="updateLabel('showPrice', this.value)">
+      <span id="showPrice">$12.5</span><br><br>
 
-      <!-- Movie Slider -->
-      <label>How much would you be willing to pay for a movie, if payment was on a pay-per-use basis?</label>
-      <div class="slider-container">
-        <input type="range" id="wtpMovie" name="wtpMovie" min="0" max="25" step="0.5" value="12.5" oninput="updateLabel('moviePrice', this.value)">
-        <div class="range-labels">
-          <span>$0</span>
-          <span id="moviePrice">$12.5</span>
-          <span>$25</span>
-        </div>
-      </div><br>
+      <label>How much would you be willing to pay for a movie, if payment was on a pay-per-use basis?</label><br>
+      <input type="range" id="wtpMovie" name="wtpMovie" min="0" max="25" step="0.5" value="12.5" oninput="updateLabel('moviePrice', this.value)">
+      <span id="moviePrice">$12.5</span><br><br>
 
-      <!-- Sports Game Slider -->
-      <label>How much would you be willing to pay for a sports event (1 game), if payment was on a pay-per-use basis?</label>
-      <div class="slider-container">
-        <input type="range" id="wtpGame" name="wtpGame" min="0" max="25" step="0.5" value="12.5" oninput="updateLabel('gamePrice', this.value)">
-        <div class="range-labels">
-          <span>$0</span>
-          <span id="gamePrice">$12.5</span>
-          <span>$25</span>
-        </div>
-      </div><br>
+      <label>How much would you be willing to pay for a sports event (1 game), if payment was on a pay-per-use basis?</label><br>
+      <input type="range" id="wtpGame" name="wtpGame" min="0" max="25" step="0.5" value="12.5" oninput="updateLabel('gamePrice', this.value)">
+      <span id="gamePrice">$12.5</span><br><br>
 
       <button type="submit">Submit</button>
     </div>
@@ -175,23 +153,12 @@
 
   <script>
     function goToStep(step) {
-      // Hide all steps
       document.querySelectorAll(".question").forEach(div => div.classList.add("hidden"));
-      // Show the current step
       document.getElementById(`step${step}`).classList.remove("hidden");
     }
 
     function updateLabel(labelId, value) {
       document.getElementById(labelId).textContent = `$${value}`;
-    }
-
-    function submitSurvey(event) {
-      // Prevent the default form submission behavior
-      event.preventDefault();
-
-      // Ensure the last step was completed
-      alert("Thank you for completing the survey!");
-      event.target.submit(); // Submit the form to Netlify
     }
   </script>
 
