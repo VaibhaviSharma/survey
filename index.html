@@ -43,18 +43,20 @@
 <body>
 
   <h1>Marketing Research Project Survey</h1>
-
-  <!-- Basic Information -->
-  <div class="question">
-    <label for="name">Name:</label><br>
-    <input type="text" id="name" placeholder="Enter your name"><br><br>
-
-    <label for="age">Age:</label><br>
-    <input type="number" id="age" placeholder="Enter your age"><br><br>
-
-    <label for="pronouns">Pronouns (optional):</label><br>
-    <input type="text" id="pronouns" placeholder="e.g., she/her, he/him, they/them"><br>
-  </div>
+ <!-- Netlify Form -->
+  <form name="marketing-survey" method="POST" data-netlify="true">
+    <!-- Basic Information -->
+    <div class="question">
+      <label for="name">Name:</label><br>
+      <input type="text" id="name" placeholder="Enter your name"><br><br>
+  
+      <label for="age">Age:</label><br>
+      <input type="number" id="age" placeholder="Enter your age"><br><br>
+  
+      <label for="pronouns">Pronouns (optional):</label><br>
+      <input type="text" id="pronouns" placeholder="e.g., she/her, he/him, they/them"><br>
+    </div>
+  </form>
 
   <!-- Digital Platforms -->
   <div class="question">
