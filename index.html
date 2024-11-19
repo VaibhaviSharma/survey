@@ -43,7 +43,7 @@
 <body>
 
   <h1>Marketing Research Project Survey</h1>
- <!-- Netlify Form -->
+     <!-- Netlify Form -->
   <form name="marketing-survey" method="POST" data-netlify="true">
     <!-- Basic Information -->
     <div class="question">
@@ -56,12 +56,8 @@
       <label for="pronouns">Pronouns (optional):</label><br>
       <input type="text" id="pronouns" placeholder="e.g., she/her, he/him, they/them"><br>
     </div>
-  </form>
-
-  <!-- Digital Platforms -->
-   <!-- Netlify Form -->
-  <form name="marketing-survey" method="POST" data-netlify="true">
-     
+  
+    <!-- Digital Platforms -->
     <div class="question">
       <label>Do you use digital platforms? Select all that apply:</label><br>
       <input type="checkbox" id="amazon" value="Amazon Prime"> Amazon Prime<br>
@@ -77,33 +73,22 @@
       <input type="checkbox" id="espn" value="ESPN+"> ESPN+<br>
       <button onclick="showFollowUp()">Next</button>
     </div>
-  </form>
-
-  <!-- Follow-Up Questions -->
-   <!-- Netlify Form -->
-  <form name="marketing-survey" method="POST" data-netlify="true">  
+  
+    <!-- Follow-Up Questions -->
     <div class="question hidden" id="followUp">
       <label>For the platforms you selected, answer the following:</label><br>
       <div id="dynamicQuestions"></div>
       <button onclick="showSubscriptionQuestion()">Next</button>
     </div>
-  </form>
-
-  <!-- Paid Subscription Question -->
-   <!-- Netlify Form -->
-  <form name="marketing-survey" method="POST" data-netlify="true">
   
+    <!-- Paid Subscription Question -->
     <div class="question hidden" id="subscriptionQuestion">
       <label>Do you have a paid subscription (as the payee) for the platforms you selected?</label><br>
       <div id="subscriptionOptions"></div>
       <button onclick="showWTPQuestions()">Next</button>
     </div>
-  </form>
-
-  <!-- Willingness-to-Pay Questions -->
-   <!-- Netlify Form -->
-  <form name="marketing-survey" method="POST" data-netlify="true">
- 
+  
+    <!-- Willingness-to-Pay Questions -->
     <div class="question hidden" id="wtpQuestions">
       <h2>Refer to this data before answering the questions:</h2>
       <table>
@@ -167,13 +152,13 @@
   
       <button onclick="submitSurvey()">Submit</button>
     </div>
+  
+    <!-- Results -->
+    <div id="results" class="hidden">
+      <h2>Thank you for completing the survey!</h2>
+      <p>Your responses have been recorded.</p>
+    </div>
   </form>
-
-  <!-- Results -->
-  <div id="results" class="hidden">
-    <h2>Thank you for completing the survey!</h2>
-    <p>Your responses have been recorded.</p>
-  </div>
 
   <script>
     function showFollowUp() {
@@ -265,4 +250,3 @@
 
 </body>
 </html>
-
