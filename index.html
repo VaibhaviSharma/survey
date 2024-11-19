@@ -78,8 +78,26 @@
       <button type="button" onclick="goToStep(3)">Next</button>
     </div>
 
-    <!-- Step 3: Willingness-to-Pay Questions -->
+    <!-- Step 3: Paid Subscriptions -->
     <div class="question hidden" id="step3">
+      <label>For the digital platforms you selected, which ones do you personally pay for?</label><br>
+      <input type="checkbox" id="pay-amazon" name="paidPlatforms" value="Amazon Prime"> Amazon Prime<br>
+      <input type="checkbox" id="pay-netflix" name="paidPlatforms" value="Netflix"> Netflix<br>
+      <input type="checkbox" id="pay-disney" name="paidPlatforms" value="Disney+"> Disney+<br>
+      <input type="checkbox" id="pay-appletv" name="paidPlatforms" value="Apple TV+"> Apple TV+<br>
+      <input type="checkbox" id="pay-hulu" name="paidPlatforms" value="Hulu"> Hulu<br>
+      <input type="checkbox" id="pay-hbo" name="paidPlatforms" value="HBO Max"> HBO Max<br>
+      <input type="checkbox" id="pay-crunchyroll" name="paidPlatforms" value="Crunchyroll"> Crunchyroll<br>
+      <input type="checkbox" id="pay-tubi" name="paidPlatforms" value="Tubi"> Tubi<br>
+      <input type="checkbox" id="pay-paramount" name="paidPlatforms" value="Paramount"> Paramount<br>
+      <input type="checkbox" id="pay-peacock" name="paidPlatforms" value="Peacock"> Peacock<br>
+      <input type="checkbox" id="pay-espn" name="paidPlatforms" value="ESPN+"> ESPN+<br><br>
+
+      <button type="button" onclick="goToStep(4)">Next</button>
+    </div>
+
+    <!-- Step 4: Willingness-to-Pay Questions -->
+    <div class="question hidden" id="step4">
       <h2>Refer to this data before answering the questions:</h2>
       <table>
         <thead>
