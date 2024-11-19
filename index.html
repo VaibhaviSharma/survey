@@ -75,14 +75,14 @@
       <input type="checkbox" id="peacock" name="platforms" value="Peacock"> Peacock<br>
       <input type="checkbox" id="espn" name="platforms" value="ESPN+"> ESPN+<br><br>
 
-      <button type="button" onclick="goToStep(3)">Next</button>
+      <button type="button" onclick="showFollowUp()">Next</button>
     </div>
 
-      <!-- Follow-Up Questions -->
+    <!-- Step 3: Follow-Up Questions -->
     <div class="question hidden" id="followUp">
       <label>For the platforms you selected, answer the following:</label><br>
       <div id="dynamicQuestions"></div>
-      <button onclick="showSubscriptionQuestion()">Next</button>
+      <button type="button" onclick="goToStep(4)">Next</button>
     </div>
 
     <!-- Step 4: Willingness-to-Pay Questions -->
@@ -155,6 +155,42 @@
     function goToStep(step) {
       document.querySelectorAll(".question").forEach(div => div.classList.add("hidden"));
       document.getElementById(`step${step}`).classList.remove("hidden");
+    }
+
+    function showFollowUp() {
+      const selectedPlatforms = [];
+      document.querySelectorAll('input[name="platforms"]:checked').forEach(checkbox => {
+        selectedPlatforms.push(checkbox.value);
+      });
+
+      if (selectedPlatforms.length === 0) {
+        alert("Please select at least one platform to proceed.");
+        return;
+      }
+
+      const dynamicQuestions = document.getElementById('dynamicQuestions');
+      dynamicQuestions.innerHTML = '';
+      selectedPlatforms.forEach(platform => {
+        const div = document.createElement('div');
+        div.innerHTML = `
+          <h3>${platform}</h3>
+          <label>How many TV shows do you watch per month on average in the last 12 months?</label><br>
+          <select name="${platform}_tvShows">
+            <option value="less than 1">Less than 1</option>
+            <option value="1">1</option>
+            <option value="more than 1">More than 1</option>
+          </select><br><br>
+          <label>How many movies do you watch per month on average in the last 12 months?</label><br>
+          <select name="${platform}_movies">
+            <option value="less than 1">Less than 1</option>
+            <option value="1">1</option>
+            <option value="more than 1">More than 1</option>
+          </select><br><br>
+        `;
+        dynamicQuestions.appendChild(div);
+      });
+
+      goToStep(3);
     }
 
     function updateLabel(labelId, value) {
