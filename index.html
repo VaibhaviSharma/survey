@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Marketing Research Project Survey</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    .question {
+      margin-bottom: 20px;
+    }
+    .hidden {
+      display: none;
+    }
+    button {
+      padding: 10px 15px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Marketing Research Project Survey</h1>
+
+  <!-- Netlify Form -->
+  <form name="marketing-survey" method="POST" data-netlify="true">
+    <!-- Basic Information -->
+    <div class="question">
+      <label for="name">Name:</label><br>
+      <input type="text" id="name" name="name" placeholder="Enter your name" required><br><br>
+
+      <label for="age">Age:</label><br>
+      <input type="number" id="age" name="age" placeholder="Enter your age" required><br><br>
+
+      <label for="pronouns">Pronouns (optional):</label><br>
+      <input type="text" id="pronouns" name="pronouns" placeholder="e.g., she/her, he/him, they/them"><br>
+    </div>
+
+    <!-- Digital Platforms -->
+    <div class="question">
+      <label>Do you use digital platforms? Select all that apply:</label><br>
+      <input type="checkbox" id="amazon" name="platforms" value="Amazon Prime"> Amazon Prime<br>
+      <input type="checkbox" id="netflix" name="platforms" value="Netflix"> Netflix<br>
+      <input type="checkbox" id="disney" name="platforms" value="Disney+"> Disney+<br>
+      <input type="checkbox" id="appletv" name="platforms" value="Apple TV+"> Apple TV+<br>
+      <input type="checkbox" id="hulu" name="platforms" value="Hulu"> Hulu<br>
+      <input type="checkbox" id="hbo" name="platforms" value="HBO Max"> HBO Max<br>
+      <input type="checkbox" id="crunchyroll" name="platforms" value="Crunchyroll"> Crunchyroll<br>
+      <input type="checkbox" id="tubi" name="platforms" value="Tubi"> Tubi<br>
+      <input type="checkbox" id="paramount" name="platforms" value="Paramount"> Paramount<br>
+      <input type="checkbox" id="peacock" name="platforms" value="Peacock"> Peacock<br>
+      <input type="checkbox" id="espn" name="platforms" value="ESPN+"> ESPN+<br>
+    </div>
+
+    <!-- Willingness-to-Pay Questions -->
+    <div class="question">
+      <h2>Refer to this data before answering the questions:</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Platform</th>
+            <th>Monthly Price</th>
+            <th>Plan Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Amazon Prime Video</td>
+            <td>$8.99</td>
+            <td>Standalone Prime Video subscription with ads.</td>
+          </tr>
+          <tr>
+            <td>Netflix</td>
+            <td>$6.99</td>
+            <td>Standard plan with ads.</td>
+          </tr>
+          <tr>
+            <td>Disney+</td>
+            <td>$9.99</td>
+            <td>Basic plan with ads.</td>
+          </tr>
+          <tr>
+            <td>Apple TV+</td>
+            <td>$9.99</td>
+            <td>Single-tier subscription without ads.</td>
+          </tr>
+          <tr>
+            <td>Hulu</td>
+            <td>$7.99</td>
+            <td>Basic plan with ads.</td>
+          </tr>
+          <tr>
+            <td>Peacock</td>
+            <td>$5.99</td>
+            <td>Premium plan with ads.</td>
+          </tr>
+          <tr>
+            <td>ESPN+</td>
+            <td>$9.99</td>
+            <td>Standalone subscription.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <label>How much would you be willing to pay for a TV show, if payment was on a pay-per-use basis?</label><br>
+      <input type="range" id="wtpShow" name="wtpShow" min="0" max="25" step="0.5" value="12.5" oninput="updateShowWTP()">
+      <span id="showPrice">$12.5</span><br><br>
+
+      <label>How much would you be willing to pay for a movie, if payment was on a pay-per-use basis?</label><br>
+      <input type="range" id="wtpMovie" name="wtpMovie" min="0" max="25" step="0.5" value="12.5" oninput="updateMovieWTP()">
+      <span id="moviePrice">$12.5</span><br><br>
+
+      <label>How much would you be willing to pay for a sports event (1 game), if payment was on a pay-per-use basis?</label><br>
+      <input type="range" id="wtpGame" name="wtpGame" min="0" max="25" step="0.5" value="12.5" oninput="updateGameWTP()">
+      <span id="gamePrice">$12.5</span><br><br>
+    </div>
+
+    <button type="submit">Submit</button>
+  </form>
+
+  <script>
+    function updateShowWTP() {
+      const value = document.getElementById('wtpShow').value;
+      document.getElementById('showPrice').textContent = `$${value}`;
+    }
+
+    function updateMovieWTP() {
+      const value = document.getElementById('wtpMovie').value;
+      document.getElementById('moviePrice').textContent = `$${value}`;
+    }
+
+    function updateGameWTP() {
+      const value = document.getElementById('wtpGame').value;
+      document.getElementById('gamePrice').textContent = `$${value}`;
+    }
+  </script>
+
+</body>
+</html>
