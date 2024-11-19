@@ -38,6 +38,14 @@
     th {
       background-color: #f2f2f2;
     }
+    .slider-container {
+      margin-top: 10px;
+    }
+    .range-labels {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 5px;
+    }
   </style>
 </head>
 <body>
@@ -46,7 +54,7 @@
 
   <!-- Netlify Form -->
   <form name="marketing-survey" method="POST" data-netlify="true" onsubmit="submitSurvey(event)">
-    <!-- Step 1: Basic Information -->
+    <!-- Basic Information -->
     <div class="question" id="step1">
       <label for="name">Name:</label><br>
       <input type="text" id="name" name="name" placeholder="Enter your name" required><br><br>
@@ -78,26 +86,8 @@
       <button type="button" onclick="goToStep(3)">Next</button>
     </div>
 
-    <!-- Step 3: Paid Subscriptions -->
+    <!-- Step 3: Willingness-to-Pay Questions -->
     <div class="question hidden" id="step3">
-      <label>For the digital platforms you selected, which ones do you personally pay for?</label><br>
-      <input type="checkbox" id="pay-amazon" name="paidPlatforms" value="Amazon Prime"> Amazon Prime<br>
-      <input type="checkbox" id="pay-netflix" name="paidPlatforms" value="Netflix"> Netflix<br>
-      <input type="checkbox" id="pay-disney" name="paidPlatforms" value="Disney+"> Disney+<br>
-      <input type="checkbox" id="pay-appletv" name="paidPlatforms" value="Apple TV+"> Apple TV+<br>
-      <input type="checkbox" id="pay-hulu" name="paidPlatforms" value="Hulu"> Hulu<br>
-      <input type="checkbox" id="pay-hbo" name="paidPlatforms" value="HBO Max"> HBO Max<br>
-      <input type="checkbox" id="pay-crunchyroll" name="paidPlatforms" value="Crunchyroll"> Crunchyroll<br>
-      <input type="checkbox" id="pay-tubi" name="paidPlatforms" value="Tubi"> Tubi<br>
-      <input type="checkbox" id="pay-paramount" name="paidPlatforms" value="Paramount"> Paramount<br>
-      <input type="checkbox" id="pay-peacock" name="paidPlatforms" value="Peacock"> Peacock<br>
-      <input type="checkbox" id="pay-espn" name="paidPlatforms" value="ESPN+"> ESPN+<br><br>
-
-      <button type="button" onclick="goToStep(4)">Next</button>
-    </div>
-
-    <!-- Step 4: Willingness-to-Pay Questions -->
-    <div class="question hidden" id="step4">
       <h2>Refer to this data before answering the questions:</h2>
       <table>
         <thead>
@@ -146,14 +136,38 @@
         </tbody>
       </table>
 
-      <label>How much would you be willing to pay for a TV show, if payment was on a pay-per-use basis?</label><br>
-      <input type="range" id="wtpShow" name="wtpShow" min="0" max="25" step="0.5" value="12.5"><br><br>
+      <!-- TV Show Slider -->
+      <label>How much would you be willing to pay for a TV show, if payment was on a pay-per-use basis?</label>
+      <div class="slider-container">
+        <input type="range" id="wtpShow" name="wtpShow" min="0" max="25" step="0.5" value="12.5" oninput="updateLabel('showPrice', this.value)">
+        <div class="range-labels">
+          <span>$0</span>
+          <span id="showPrice">$12.5</span>
+          <span>$25</span>
+        </div>
+      </div><br>
 
-      <label>How much would you be willing to pay for a movie, if payment was on a pay-per-use basis?</label><br>
-      <input type="range" id="wtpMovie" name="wtpMovie" min="0" max="25" step="0.5" value="12.5"><br><br>
+      <!-- Movie Slider -->
+      <label>How much would you be willing to pay for a movie, if payment was on a pay-per-use basis?</label>
+      <div class="slider-container">
+        <input type="range" id="wtpMovie" name="wtpMovie" min="0" max="25" step="0.5" value="12.5" oninput="updateLabel('moviePrice', this.value)">
+        <div class="range-labels">
+          <span>$0</span>
+          <span id="moviePrice">$12.5</span>
+          <span>$25</span>
+        </div>
+      </div><br>
 
-      <label>How much would you be willing to pay for a sports event (1 game), if payment was on a pay-per-use basis?</label><br>
-      <input type="range" id="wtpGame" name="wtpGame" min="0" max="25" step="0.5" value="12.5"><br><br>
+      <!-- Sports Game Slider -->
+      <label>How much would you be willing to pay for a sports event (1 game), if payment was on a pay-per-use basis?</label>
+      <div class="slider-container">
+        <input type="range" id="wtpGame" name="wtpGame" min="0" max="25" step="0.5" value="12.5" oninput="updateLabel('gamePrice', this.value)">
+        <div class="range-labels">
+          <span>$0</span>
+          <span id="gamePrice">$12.5</span>
+          <span>$25</span>
+        </div>
+      </div><br>
 
       <button type="submit">Submit</button>
     </div>
@@ -165,6 +179,10 @@
       document.querySelectorAll(".question").forEach(div => div.classList.add("hidden"));
       // Show the current step
       document.getElementById(`step${step}`).classList.remove("hidden");
+    }
+
+    function updateLabel(labelId, value) {
+      document.getElementById(labelId).textContent = `$${value}`;
     }
 
     function submitSurvey(event) {
