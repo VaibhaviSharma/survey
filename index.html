@@ -46,50 +46,53 @@
 
   <form name="marketing-survey" method="POST" data-netlify="true">
     <!-- Basic Information -->
-    <div class="question">
+    <div class="question" id="step1">
       <label for="name">Name:</label><br>
-      <input type="text" id="name" placeholder="Enter your name"><br><br>
+      <input type="text" id="name" name="name" placeholder="Enter your name" required><br><br>
 
       <label for="age">Age:</label><br>
-      <input type="number" id="age" placeholder="Enter your age"><br><br>
+      <input type="number" id="age" name="age" placeholder="Enter your age" required><br><br>
 
       <label for="pronouns">Pronouns (optional):</label><br>
-      <input type="text" id="pronouns" placeholder="e.g., she/her, he/him, they/them"><br>
+      <input type="text" id="pronouns" name="pronouns" placeholder="e.g., she/her, he/him, they/them"><br><br>
+
+      <button type="button" onclick="goToStep(1, 2)">Next</button>
     </div>
 
     <!-- Digital Platforms -->
-    <div class="question">
+    <div class="question hidden" id="step2">
       <label>Do you use digital platforms? Select all that apply:</label><br>
-      <input type="checkbox" id="amazon" value="Amazon Prime"> Amazon Prime<br>
-      <input type="checkbox" id="netflix" value="Netflix"> Netflix<br>
-      <input type="checkbox" id="disney" value="Disney+"> Disney+<br>
-      <input type="checkbox" id="appletv" value="Apple TV+"> Apple TV+<br>
-      <input type="checkbox" id="hulu" value="Hulu"> Hulu<br>
-      <input type="checkbox" id="hbo" value="HBO Max"> HBO Max<br>
-      <input type="checkbox" id="crunchyroll" value="Crunchyroll"> Crunchyroll<br>
-      <input type="checkbox" id="tubi" value="Tubi"> Tubi<br>
-      <input type="checkbox" id="paramount" value="Paramount"> Paramount<br>
-      <input type="checkbox" id="peacock" value="Peacock"> Peacock<br>
-      <input type="checkbox" id="espn" value="ESPN+"> ESPN+<br>
-      <button onclick="showFollowUp(event)">Next</button>
+      <input type="checkbox" id="amazon" name="platforms" value="Amazon Prime"> Amazon Prime<br>
+      <input type="checkbox" id="netflix" name="platforms" value="Netflix"> Netflix<br>
+      <input type="checkbox" id="disney" name="platforms" value="Disney+"> Disney+<br>
+      <input type="checkbox" id="appletv" name="platforms" value="Apple TV+"> Apple TV+<br>
+      <input type="checkbox" id="hulu" name="platforms" value="Hulu"> Hulu<br>
+      <input type="checkbox" id="hbo" name="platforms" value="HBO Max"> HBO Max<br>
+      <input type="checkbox" id="crunchyroll" name="platforms" value="Crunchyroll"> Crunchyroll<br>
+      <input type="checkbox" id="tubi" name="platforms" value="Tubi"> Tubi<br>
+      <input type="checkbox" id="paramount" name="platforms" value="Paramount"> Paramount<br>
+      <input type="checkbox" id="peacock" name="platforms" value="Peacock"> Peacock<br>
+      <input type="checkbox" id="espn" name="platforms" value="ESPN+"> ESPN+<br><br>
+
+      <button type="button" onclick="showFollowUp()">Next</button>
     </div>
 
     <!-- Follow-Up Questions -->
-    <div class="question hidden" id="followUp">
+    <div class="question hidden" id="step3">
       <label>For the platforms you selected, answer the following:</label><br>
       <div id="dynamicQuestions"></div>
-      <button onclick="showSubscriptionQuestion(event)">Next</button>
+      <button type="button" onclick="showSubscriptionQuestion()">Next</button>
     </div>
 
     <!-- Paid Subscription Question -->
-    <div class="question hidden" id="subscriptionQuestion">
+    <div class="question hidden" id="step4">
       <label>Do you have a paid subscription (as the payee) for the platforms you selected?</label><br>
       <div id="subscriptionOptions"></div>
-      <button onclick="showWTPQuestions(event)">Next</button>
+      <button type="button" onclick="goToStep(4, 5)">Next</button>
     </div>
 
     <!-- Willingness-to-Pay Questions -->
-    <div class="question hidden" id="wtpQuestions">
+    <div class="question hidden" id="step5">
       <h2>Refer to this data before answering the questions:</h2>
       <table>
         <thead>
@@ -139,37 +142,99 @@
       </table>
 
       <label>How much would you be willing to pay for a TV show?</label><br>
-      <input type="range" id="wtpShow" min="0" max="25" step="0.5" value="12.5" oninput="updateWTP('wtpShow', 'showPrice')">
+      <input type="range" id="wtpShow" name="wtpShow" min="0" max="25" step="0.5" value="12.5" oninput="updateWTP('wtpShow', 'showPrice')">
       <span id="showPrice">$12.5</span><br><br>
 
-      <button onclick="submitSurvey(event)">Submit</button>
+      <label>How much would you be willing to pay for a movie?</label><br>
+      <input type="range" id="wtpMovie" name="wtpMovie" min="0" max="25" step="0.5" value="12.5" oninput="updateWTP('wtpMovie', 'moviePrice')">
+      <span id="moviePrice">$12.5</span><br><br>
+
+      <label>How much would you be willing to pay for a sports event?</label><br>
+      <input type="range" id="wtpGame" name="wtpGame" min="0" max="25" step="0.5" value="12.5" oninput="updateWTP('wtpGame', 'gamePrice')">
+      <span id="gamePrice">$12.5</span><br><br>
+
+      <button type="submit">Submit</button>
     </div>
   </form>
 
   <script>
-    function showFollowUp(event) {
-      event.preventDefault(); // Prevent form submission
-      document.getElementById('followUp').classList.remove('hidden');
+    function goToStep(currentStep, nextStep) {
+      document.getElementById(`step${currentStep}`).classList.add("hidden");
+      document.getElementById(`step${nextStep}`).classList.remove("hidden");
     }
 
-    function showSubscriptionQuestion(event) {
-      event.preventDefault(); // Prevent form submission
-      document.getElementById('subscriptionQuestion').classList.remove('hidden');
+    function showFollowUp() {
+      const selectedPlatforms = [];
+      document.querySelectorAll('input[name="platforms"]:checked').forEach(checkbox => {
+        selectedPlatforms.push(checkbox.value);
+      });
+
+      if (selectedPlatforms.length === 0) {
+        alert("Please select at least one platform to proceed.");
+        return;
+      }
+
+      const dynamicQuestions = document.getElementById('dynamicQuestions');
+      dynamicQuestions.innerHTML = '';
+      selectedPlatforms.forEach(platform => {
+        const div = document.createElement('div');
+        div.innerHTML = `
+          <h3>${platform}</h3>
+          <label>How many TV shows do you watch per month on average?</label><br>
+          <select name="${platform}_tvShows">
+            <option value="less than 1">Less than 1</option>
+            <option value="1">1</option>
+            <option value="more than 1">More than 1</option>
+          </select><br><br>
+          <label>How many movies do you watch per month on average?</label><br>
+          <select name="${platform}_movies">
+            <option value="less than 1">Less than 1</option>
+            <option value="1">1</option>
+            <option value="more than 1">More than 1</option>
+          </select><br><br>
+          ${
+            ['Peacock', 'ESPN+'].includes(platform)
+              ? `
+          <label>How many games do you watch per month on average?</label><br>
+          <select name="${platform}_games">
+            <option value="less than 1">Less than 1</option>
+            <option value="1">1</option>
+            <option value="more than 1">More than 1</option>
+          </select><br><br>
+          `
+              : ''
+          }
+        `;
+        dynamicQuestions.appendChild(div);
+      });
+
+      goToStep(2, 3);
     }
 
-    function showWTPQuestions(event) {
-      event.preventDefault(); // Prevent form submission
-      document.getElementById('wtpQuestions').classList.remove('hidden');
+    function showSubscriptionQuestion() {
+      const selectedPlatforms = [];
+      document.querySelectorAll('input[name="platforms"]:checked').forEach(checkbox => {
+        selectedPlatforms.push(checkbox.value);
+      });
+
+      const subscriptionOptions = document.getElementById('subscriptionOptions');
+      subscriptionOptions.innerHTML = '';
+      selectedPlatforms.forEach(platform => {
+        const div = document.createElement('div');
+        div.innerHTML = `
+          <input type="checkbox" name="paidPlatforms" value="${platform}"> ${platform}<br>
+        `;
+        subscriptionOptions.appendChild(div);
+      });
+
+      goToStep(3, 4);
     }
 
     function updateWTP(inputId, spanId) {
       const value = document.getElementById(inputId).value;
       document.getElementById(spanId).textContent = `$${value}`;
     }
+  </script>
 
-    function submitSurvey(event) {
-      event.preventDefault(); // Prevent form submission
-      alert('Survey submitted!');
-    }
-  </scr
-
+</body>
+</html>
