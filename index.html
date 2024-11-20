@@ -43,115 +43,117 @@
 <body>
 
   <h1>Marketing Research Project Survey</h1>
-
-  <!-- Basic Information -->
-  <div class="question">
-    <label for="name">Name:</label><br>
-    <input type="text" id="name" placeholder="Enter your name"><br><br>
-
-    <label for="age">Age:</label><br>
-    <input type="number" id="age" placeholder="Enter your age"><br><br>
-
-    <label for="pronouns">Pronouns (optional):</label><br>
-    <input type="text" id="pronouns" placeholder="e.g., she/her, he/him, they/them"><br>
-  </div>
-
-  <!-- Digital Platforms -->
-  <div class="question">
-    <label>Do you use digital platforms? Select all that apply:</label><br>
-    <input type="checkbox" id="amazon" value="Amazon Prime"> Amazon Prime<br>
-    <input type="checkbox" id="netflix" value="Netflix"> Netflix<br>
-    <input type="checkbox" id="disney" value="Disney+"> Disney+<br>
-    <input type="checkbox" id="appletv" value="Apple TV+"> Apple TV+<br>
-    <input type="checkbox" id="hulu" value="Hulu"> Hulu<br>
-    <input type="checkbox" id="hbo" value="HBO Max"> HBO Max<br>
-    <input type="checkbox" id="crunchyroll" value="Crunchyroll"> Crunchyroll<br>
-    <input type="checkbox" id="tubi" value="Tubi"> Tubi<br>
-    <input type="checkbox" id="paramount" value="Paramount"> Paramount<br>
-    <input type="checkbox" id="peacock" value="Peacock"> Peacock<br>
-    <input type="checkbox" id="espn" value="ESPN+"> ESPN+<br>
-    <button onclick="showFollowUp()">Next</button>
-  </div>
+<!-- Netlify Form -->
+  <form name="marketing-survey" method="POST" data-netlify="true">
+    <!-- Basic Information -->
+    <div class="question">
+      <label for="name">Name:</label><br>
+      <input type="text" id="name" placeholder="Enter your name"><br><br>
   
-   <!-- Follow-Up Questions -->
-  <div class="question hidden" id="followUp">
-    <label>For the platforms you selected, answer the following:</label><br>
-    <div id="dynamicQuestions"></div>
-    <button onclick="showSubscriptionQuestion()">Next</button>
-  </div>
-
-  <!-- Paid Subscription Question -->
-  <div class="question hidden" id="subscriptionQuestion">
-    <label>Do you have a paid subscription (as the payee) for the platforms you selected?</label><br>
-    <div id="subscriptionOptions"></div>
-    <button onclick="showWTPQuestions()">Next</button>
-  </div>
-
-
-  <!-- Willingness-to-Pay Questions -->
-  <div class="question hidden" id="wtpQuestions">
-    <h2>Refer to this data before answering the questions:</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>Platform</th>
-          <th>Monthly Price</th>
-          <th>Plan Details</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Amazon Prime Video</td>
-          <td>$8.99</td>
-          <td>Standalone Prime Video subscription with ads.</td>
-        </tr>
-        <tr>
-          <td>Netflix</td>
-          <td>$6.99</td>
-          <td>Standard plan with ads.</td>
-        </tr>
-        <tr>
-          <td>Disney+</td>
-          <td>$9.99</td>
-          <td>Basic plan with ads.</td>
-        </tr>
-        <tr>
-          <td>Apple TV+</td>
-          <td>$9.99</td>
-          <td>Single-tier subscription without ads.</td>
-        </tr>
-        <tr>
-          <td>Hulu</td>
-          <td>$7.99</td>
-          <td>Basic plan with ads.</td>
-        </tr>
-        <tr>
-          <td>Peacock</td>
-          <td>$5.99</td>
-          <td>Premium plan with ads.</td>
-        </tr>
-        <tr>
-          <td>ESPN+</td>
-          <td>$9.99</td>
-          <td>Standalone subscription.</td>
-        </tr>
-      </tbody>
-    </table>
-
-    <label>How much would you be willing to pay for a TV show, if payment was on a pay-per-use basis?</label><br>
-    <input type="range" id="wtpShow" min="0" max="25" step="0.5" value="12.5" oninput="updateShowWTP()">
-    <span id="showPrice">$12.5</span><br><br>
-
-    <label>How much would you be willing to pay for a movie, if payment was on a pay-per-use basis?</label><br>
-    <input type="range" id="wtpMovie" min="0" max="25" step="0.5" value="12.5" oninput="updateMovieWTP()">
-    <span id="moviePrice">$12.5</span><br><br>
-
-    <label>How much would you be willing to pay for a sports event (1 game), if payment was on a pay-per-use basis?</label><br>
-    <input type="range" id="wtpGame" min="0" max="25" step="0.5" value="12.5" oninput="updateGameWTP()">
-    <span id="gamePrice">$12.5</span><br><br>
-
-    <button onclick="submitSurvey()">Submit</button>
-  </div>
+      <label for="age">Age:</label><br>
+      <input type="number" id="age" placeholder="Enter your age"><br><br>
+  
+      <label for="pronouns">Pronouns (optional):</label><br>
+      <input type="text" id="pronouns" placeholder="e.g., she/her, he/him, they/them"><br>
+    </div>
+  
+    <!-- Digital Platforms -->
+    <div class="question">
+      <label>Do you use digital platforms? Select all that apply:</label><br>
+      <input type="checkbox" id="amazon" value="Amazon Prime"> Amazon Prime<br>
+      <input type="checkbox" id="netflix" value="Netflix"> Netflix<br>
+      <input type="checkbox" id="disney" value="Disney+"> Disney+<br>
+      <input type="checkbox" id="appletv" value="Apple TV+"> Apple TV+<br>
+      <input type="checkbox" id="hulu" value="Hulu"> Hulu<br>
+      <input type="checkbox" id="hbo" value="HBO Max"> HBO Max<br>
+      <input type="checkbox" id="crunchyroll" value="Crunchyroll"> Crunchyroll<br>
+      <input type="checkbox" id="tubi" value="Tubi"> Tubi<br>
+      <input type="checkbox" id="paramount" value="Paramount"> Paramount<br>
+      <input type="checkbox" id="peacock" value="Peacock"> Peacock<br>
+      <input type="checkbox" id="espn" value="ESPN+"> ESPN+<br>
+      <button onclick="showFollowUp()">Next</button>
+    </div>
+    
+     <!-- Follow-Up Questions -->
+    <div class="question hidden" id="followUp">
+      <label>For the platforms you selected, answer the following:</label><br>
+      <div id="dynamicQuestions"></div>
+      <button onclick="showSubscriptionQuestion()">Next</button>
+    </div>
+  
+    <!-- Paid Subscription Question -->
+    <div class="question hidden" id="subscriptionQuestion">
+      <label>Do you have a paid subscription (as the payee) for the platforms you selected?</label><br>
+      <div id="subscriptionOptions"></div>
+      <button onclick="showWTPQuestions()">Next</button>
+    </div>
+  
+  
+    <!-- Willingness-to-Pay Questions -->
+    <div class="question hidden" id="wtpQuestions">
+      <h2>Refer to this data before answering the questions:</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Platform</th>
+            <th>Monthly Price</th>
+            <th>Plan Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Amazon Prime Video</td>
+            <td>$8.99</td>
+            <td>Standalone Prime Video subscription with ads.</td>
+          </tr>
+          <tr>
+            <td>Netflix</td>
+            <td>$6.99</td>
+            <td>Standard plan with ads.</td>
+          </tr>
+          <tr>
+            <td>Disney+</td>
+            <td>$9.99</td>
+            <td>Basic plan with ads.</td>
+          </tr>
+          <tr>
+            <td>Apple TV+</td>
+            <td>$9.99</td>
+            <td>Single-tier subscription without ads.</td>
+          </tr>
+          <tr>
+            <td>Hulu</td>
+            <td>$7.99</td>
+            <td>Basic plan with ads.</td>
+          </tr>
+          <tr>
+            <td>Peacock</td>
+            <td>$5.99</td>
+            <td>Premium plan with ads.</td>
+          </tr>
+          <tr>
+            <td>ESPN+</td>
+            <td>$9.99</td>
+            <td>Standalone subscription.</td>
+          </tr>
+        </tbody>
+      </table>
+  
+      <label>How much would you be willing to pay for a TV show, if payment was on a pay-per-use basis?</label><br>
+      <input type="range" id="wtpShow" min="0" max="25" step="0.5" value="12.5" oninput="updateShowWTP()">
+      <span id="showPrice">$12.5</span><br><br>
+  
+      <label>How much would you be willing to pay for a movie, if payment was on a pay-per-use basis?</label><br>
+      <input type="range" id="wtpMovie" min="0" max="25" step="0.5" value="12.5" oninput="updateMovieWTP()">
+      <span id="moviePrice">$12.5</span><br><br>
+  
+      <label>How much would you be willing to pay for a sports event (1 game), if payment was on a pay-per-use basis?</label><br>
+      <input type="range" id="wtpGame" min="0" max="25" step="0.5" value="12.5" oninput="updateGameWTP()">
+      <span id="gamePrice">$12.5</span><br><br>
+  
+      <button onclick="submitSurvey()">Submit</button>
+    </div>
+  </form>
 
   <!-- Results -->
   <div id="results" class="hidden">
