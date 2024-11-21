@@ -56,12 +56,12 @@
       <label for="pronouns">Pronouns (optional):</label><br>
       <input type="text" id="pronouns" name="pronouns" placeholder="e.g., she/her, he/him, they/them"><br><br>
 
-      <button type="button" onclick="goToStep(1, 2)">Next</button>
+      <button type="button" onclick="goToStep('step1', 'step2')">Next</button>
     </div>
 
-    <!-- Digital Platforms -->
+    <!-- Selected Platforms -->
     <div class="question hidden" id="step2">
-      <label>Do you use digital platforms? Select all that apply:</label><br>
+      <label>Do you use digital platforms? It could be your own subscription or a shared subscription (Family/Friends). Select all that apply:</label><br>
       <input type="checkbox" id="amazon" name="platforms" value="Amazon Prime"> Amazon Prime<br>
       <input type="checkbox" id="netflix" name="platforms" value="Netflix"> Netflix<br>
       <input type="checkbox" id="disney" name="platforms" value="Disney+"> Disney+<br>
@@ -74,21 +74,26 @@
       <input type="checkbox" id="peacock" name="platforms" value="Peacock"> Peacock<br>
       <input type="checkbox" id="espn" name="platforms" value="ESPN+"> ESPN+<br><br>
 
-      <button type="button" onclick="showFollowUp()">Next</button>
+      <button type="button" onclick="showSelectedPlatformQuestions()">Next</button>
     </div>
 
-    <!-- Follow-Up Questions -->
+    <!-- Questions for Selected Platforms -->
     <div class="question hidden" id="step3">
       <label>For the platforms you selected, answer the following:</label><br>
-      <div id="dynamicQuestions"></div>
-      <button type="button" onclick="showSubscriptionQuestion()">Next</button>
+      <div id="selectedPlatformQuestions"></div>
+
+      <!-- Question: Which platforms does the user pay for? -->
+      <label>Which platforms do you pay for? (If you are using a friend or family member’s account, DO NOT SELECT IT HERE.)</label><br>
+      <div id="paidPlatforms"></div>
+
+      <button type="button" onclick="showUnselectedPlatformQuestions()">Next</button>
     </div>
 
-    <!-- Paid Subscription Question -->
+    <!-- Questions for Not Selected Platforms -->
     <div class="question hidden" id="step4">
-      <label>Do you have a paid subscription (as the payee) for the platforms you selected?</label><br>
-      <div id="subscriptionOptions"></div>
-      <button type="button" onclick="goToStep(4, 5)">Next</button>
+      <label>For the platforms you did not select, what are the reasons? Select all that apply:</label><br>
+      <div id="unselectedPlatformQuestions"></div>
+      <button type="button" onclick="goToStep('step4', 'step5')">Next</button>
     </div>
 
     <!-- Willingness-to-Pay Questions -->
@@ -140,18 +145,65 @@
           </tr>
         </tbody>
       </table>
+       <p>
+        A pay-per-use service allows users to watch a single movie, TV show, or sports game on digital platforms without needing a full subscription.
+        It provides flexible, on-demand access by letting users pay only for the specific content they want, rather than committing to monthly or yearly plans.
+        This model caters to occasional viewers or those seeking exclusive events, offering a cost-effective alternative for tailored entertainment consumption.
+      </p>
 
       <label>How much would you be willing to pay for a TV show?</label><br>
-      <input type="range" id="wtpShow" name="wtpShow" min="0" max="25" step="0.5" value="12.5" oninput="updateWTP('wtpShow', 'showPrice')">
-      <span id="showPrice">$12.5</span><br><br>
+      <select id="wtpShow" name="wtpShow">
+        <option value="0">$0</option>
+        <option value="1">$1</option>
+        <option value="2">$2</option>
+        <option value="3">$3</option>
+        <option value="4">$4</option>
+        <option value="5">$5</option>
+        <option value="6">$6</option>
+        <option value="7">$7</option>
+        <option value="8">$8</option>
+        <option value="9">$9</option>
+        <option value="10">$10</option>
+      </select><br><br>
 
       <label>How much would you be willing to pay for a movie?</label><br>
-      <input type="range" id="wtpMovie" name="wtpMovie" min="0" max="25" step="0.5" value="12.5" oninput="updateWTP('wtpMovie', 'moviePrice')">
-      <span id="moviePrice">$12.5</span><br><br>
+      <select id="wtpMovie" name="wtpMovie">
+        <option value="0">$0</option>
+        <option value="1">$1</option>
+        <option value="2">$2</option>
+        <option value="3">$3</option>
+        <option value="4">$4</option>
+        <option value="5">$5</option>
+        <option value="6">$6</option>
+        <option value="7">$7</option>
+        <option value="8">$8</option>
+        <option value="9">$9</option>
+        <option value="10">$10</option>
+      </select><br><br>
 
-      <label>How much would you be willing to pay for a sports event?</label><br>
-      <input type="range" id="wtpGame" name="wtpGame" min="0" max="25" step="0.5" value="12.5" oninput="updateWTP('wtpGame', 'gamePrice')">
-      <span id="gamePrice">$12.5</span><br><br>
+      <label>How much would you be willing to pay for a game?</label><br>
+      <select id="wtpGame" name="wtpGame">
+        <option value="0">$0</option>
+        <option value="1">$1</option>
+        <option value="2">$2</option>
+        <option value="3">$3</option>
+        <option value="4">$4</option>
+        <option value="5">$5</option>
+        <option value="6">$6</option>
+        <option value="7">$7</option>
+        <option value="8">$8</option>
+        <option value="9">$9</option>
+        <option value="10">$10</option>
+      </select><br><br>
+
+      <button type="button" onclick="goToStep('step5', 'step6')">Next</button>
+    </div>
+
+    <!-- Pay-Per-User Service Question -->
+    <div class="question hidden" id="step6">
+      <label>If a pay-per-user service was available for all digital platforms in the US, would you opt for it?</label><br>
+      <label><input type="radio" name="payPerUser" value="YES" required> YES</label><br>
+      <label><input type="radio" name="payPerUser" value="NO" required> NO</label><br><br>
 
       <button type="submit">Submit</button>
     </div>
@@ -159,80 +211,91 @@
 
   <script>
     function goToStep(currentStep, nextStep) {
-      document.getElementById(`step${currentStep}`).classList.add("hidden");
-      document.getElementById(`step${nextStep}`).classList.remove("hidden");
+      document.getElementById(currentStep).classList.add("hidden");
+      document.getElementById(nextStep).classList.remove("hidden");
     }
 
-    function showFollowUp() {
+    function showSelectedPlatformQuestions() {
       const selectedPlatforms = [];
       document.querySelectorAll('input[name="platforms"]:checked').forEach(checkbox => {
         selectedPlatforms.push(checkbox.value);
       });
 
-      if (selectedPlatforms.length === 0) {
-        alert("Please select at least one platform to proceed.");
-        return;
-      }
+      const selectedDiv = document.getElementById("selectedPlatformQuestions");
+      const paidDiv = document.getElementById("paidPlatforms");
+      selectedDiv.innerHTML = '';
+      paidDiv.innerHTML = '';
 
-      const dynamicQuestions = document.getElementById('dynamicQuestions');
-      dynamicQuestions.innerHTML = '';
       selectedPlatforms.forEach(platform => {
-        const div = document.createElement('div');
+        const div = document.createElement("div");
         div.innerHTML = `
           <h3>${platform}</h3>
-          <label>How many TV shows do you watch per month on average?</label><br>
-          <select name="${platform}_tvShows">
-            <option value="less than 1">Less than 1</option>
-            <option value="1">1</option>
-            <option value="more than 1">More than 1</option>
-          </select><br><br>
-          <label>How many movies do you watch per month on average?</label><br>
+          <label>How many movies do you watch on this platform monthly?</label><br>
           <select name="${platform}_movies">
             <option value="less than 1">Less than 1</option>
             <option value="1">1</option>
             <option value="more than 1">More than 1</option>
           </select><br><br>
-          ${
-            ['Peacock', 'ESPN+'].includes(platform)
-              ? `
-          <label>How many games do you watch per month on average?</label><br>
+
+          <label>How many TV shows do you watch on this platform monthly?</label><br>
+          <select name="${platform}_tvShows">
+            <option value="less than 1">Less than 1</option>
+            <option value="1">1</option>
+            <option value="more than 1">More than 1</option>
+          </select><br><br>
+
+          <label>How many games do you play on this platform monthly? (only for ESPN+ and Peacock)</label><br>
           <select name="${platform}_games">
             <option value="less than 1">Less than 1</option>
             <option value="1">1</option>
             <option value="more than 1">More than 1</option>
           </select><br><br>
-          `
-              : ''
-          }
         `;
-        dynamicQuestions.appendChild(div);
+        selectedDiv.appendChild(div);
+
+        const paidCheckbox = document.createElement("div");
+        paidCheckbox.innerHTML = `
+          <input type="checkbox" name="paidPlatforms" value="${platform}"> ${platform}<br>
+        `;
+        paidDiv.appendChild(paidCheckbox);
       });
 
-      goToStep(2, 3);
+      goToStep('step2', 'step3');
     }
 
-    function showSubscriptionQuestion() {
+    function showUnselectedPlatformQuestions() {
+      const allPlatforms = [
+        "Amazon Prime", "Netflix", "Disney+", "Apple TV+", "Hulu",
+        "HBO Max", "Crunchyroll", "Tubi", "Paramount", "Peacock", "ESPN+"
+      ];
+
       const selectedPlatforms = [];
       document.querySelectorAll('input[name="platforms"]:checked').forEach(checkbox => {
         selectedPlatforms.push(checkbox.value);
       });
 
-      const subscriptionOptions = document.getElementById('subscriptionOptions');
-      subscriptionOptions.innerHTML = '';
-      selectedPlatforms.forEach(platform => {
-        const div = document.createElement('div');
+      const unselectedPlatforms = allPlatforms.filter(
+        platform => !selectedPlatforms.includes(platform)
+      );
+
+      const unselectedDiv = document.getElementById("unselectedPlatformQuestions");
+      unselectedDiv.innerHTML = '';
+
+      unselectedPlatforms.forEach(platform => {
+        const div = document.createElement("div");
         div.innerHTML = `
-          <input type="checkbox" name="paidPlatforms" value="${platform}"> ${platform}<br>
+          <h3>${platform}</h3>
+          <label>Select all that apply:</label><br>
+          <input type="checkbox" name="${platform}_reason" value="Content is not interesting"> Content is not interesting<br>
+          <input type="checkbox" name="${platform}_reason" value="Not willing to pay"> Not willing to pay<br>
+          <input type="checkbox" name="${platform}_reason" value="Do not have time"> Do not have time<br>
+          <input type="checkbox" name="${platform}_reason" value="Screen time"> Screen time<br>
+          <label>Other:</label> <input type="text" name="${platform}_reason_other" placeholder="Please specify"><br><br>
         `;
-        subscriptionOptions.appendChild(div);
+        unselectedDiv.appendChild(div);
       });
 
-      goToStep(3, 4);
-    }
-
-    function updateWTP(inputId, spanId) {
-      const value = document.getElementById(inputId).value;
-      document.getElementById(spanId).textContent = `$${value}`;
+      goToStep('step3', 'step4');
     }
   </script>
 
