@@ -65,17 +65,17 @@
     <!-- Selected Platforms -->
     <div class="question hidden" id="step2">
       <label>Do you use digital platforms? Select all that apply:</label><br>
-      <input type="checkbox" id="amazon" name="platforms" value="Amazon Prime"> Amazon Prime<br>
-      <input type="checkbox" id="netflix" name="platforms" value="Netflix"> Netflix<br>
-      <input type="checkbox" id="disney" name="platforms" value="Disney+"> Disney+<br>
-      <input type="checkbox" id="appletv" name="platforms" value="Apple TV+"> Apple TV+<br>
-      <input type="checkbox" id="hulu" name="platforms" value="Hulu"> Hulu<br>
-      <input type="checkbox" id="hbo" name="platforms" value="HBO Max"> HBO Max<br>
-      <input type="checkbox" id="crunchyroll" name="platforms" value="Crunchyroll"> Crunchyroll<br>
-      <input type="checkbox" id="tubi" name="platforms" value="Tubi"> Tubi<br>
-      <input type="checkbox" id="paramount" name="platforms" value="Paramount"> Paramount<br>
-      <input type="checkbox" id="peacock" name="platforms" value="Peacock"> Peacock<br>
-      <input type="checkbox" id="espn" name="platforms" value="ESPN+"> ESPN+<br><br>
+      <input type="checkbox" id="amazon" name="platforms[]" value="Amazon Prime"> Amazon Prime<br>
+      <input type="checkbox" id="netflix" name="platforms[]" value="Netflix"> Netflix<br>
+      <input type="checkbox" id="disney" name="platforms[]" value="Disney+"> Disney+<br>
+      <input type="checkbox" id="appletv" name="platforms[]" value="Apple TV+"> Apple TV+<br>
+      <input type="checkbox" id="hulu" name="platforms[]" value="Hulu"> Hulu<br>
+      <input type="checkbox" id="hbo" name="platforms[]" value="HBO Max"> HBO Max<br>
+      <input type="checkbox" id="crunchyroll" name="platforms[]" value="Crunchyroll"> Crunchyroll<br>
+      <input type="checkbox" id="tubi" name="platforms[]" value="Tubi"> Tubi<br>
+      <input type="checkbox" id="paramount" name="platforms[]" value="Paramount"> Paramount<br>
+      <input type="checkbox" id="peacock" name="platforms[]" value="Peacock"> Peacock<br>
+      <input type="checkbox" id="espn" name="platforms[]" value="ESPN+"> ESPN+<br><br>
 
       <button type="button" onclick="showSelectedPlatformQuestions()">Next</button>
     </div>
@@ -218,20 +218,17 @@
       document.getElementById(nextStep).classList.remove("hidden");
     }
 
-    // Include previously defined showSelectedPlatformQuestions() and showUnselectedPlatformQuestions() functions
-     function showSelectedPlatformQuestions() {
+    function showSelectedPlatformQuestions() {
       const selectedPlatforms = [];
-      document.querySelectorAll('input[name="platforms"]:checked').forEach(checkbox => {
+      document.querySelectorAll('input[name="platforms[]"]:checked').forEach(checkbox => {
         selectedPlatforms.push(checkbox.value);
       });
 
       const selectedDiv = document.getElementById("selectedPlatformQuestions");
       const paidDiv = document.getElementById("paidPlatforms");
-      const hiddenFields = document.getElementById("hiddenFields");
 
       selectedDiv.innerHTML = '';
       paidDiv.innerHTML = '';
-      hiddenFields.innerHTML = '';
 
       selectedPlatforms.forEach(platform => {
         const div = document.createElement("div");
@@ -265,13 +262,6 @@
           <input type="checkbox" name="paidPlatforms" value="${platform}"> ${platform}<br>
         `;
         paidDiv.appendChild(paidCheckbox);
-
-        // Add hidden input for selected platforms
-        const input = document.createElement("input");
-        input.type = "hidden";
-        input.name = "selectedPlatforms[]";
-        input.value = platform;
-        hiddenFields.appendChild(input);
       });
 
       goToStep('step2', 'step3');
@@ -284,7 +274,7 @@
       ];
 
       const selectedPlatforms = [];
-      document.querySelectorAll('input[name="platforms"]:checked').forEach(checkbox => {
+      document.querySelectorAll('input[name="platforms[]"]:checked').forEach(checkbox => {
         selectedPlatforms.push(checkbox.value);
       });
 
@@ -293,8 +283,6 @@
       );
 
       const unselectedDiv = document.getElementById("unselectedPlatformQuestions");
-      const hiddenFields = document.getElementById("hiddenFields");
-
       unselectedDiv.innerHTML = '';
 
       unselectedPlatforms.forEach(platform => {
@@ -302,20 +290,14 @@
         div.innerHTML = `
           <h3>${platform}</h3>
           <label>Select all that apply:</label><br>
-          <input type="checkbox" name="${platform}_reason" value="Content is not interesting"> Content is not interesting<br>
-          <input type="checkbox" name="${platform}_reason" value="Not willing to pay"> Not willing to pay<br>
-          <input type="checkbox" name="${platform}_reason" value="Do not have time"> Do not have time<br>
-          <input type="checkbox" name="${platform}_reason" value="Screen time"> Screen time<br>
-          <label>Other:</label> <input type="text" name="${platform}_reason_other" placeholder="Please specify"><br><br>
+          <input type="checkbox" name="platform_reasons[${platform}][]" value="Content is not interesting"> Content is not interesting<br>
+          <input type="checkbox" name="platform_reasons[${platform}][]" value="Not willing to pay"> Not willing to pay<br>
+          <input type="checkbox" name="platform_reasons[${platform}][]" value="Do not have time"> Do not have time<br>
+          <input type="checkbox" name="platform_reasons[${platform}][]" value="Screen time"> Screen time<br>
+          <label>Other:</label> 
+          <input type="text" name="platform_reasons[${platform}][]" placeholder="Please specify"><br><br>
         `;
         unselectedDiv.appendChild(div);
-
-        // Add hidden input for unselected platforms
-        const input = document.createElement("input");
-        input.type = "hidden";
-        input.name = "unselectedPlatforms[]";
-        input.value = platform;
-        hiddenFields.appendChild(input);
       });
 
       goToStep('step3', 'step4');
