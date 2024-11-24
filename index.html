@@ -45,6 +45,9 @@
   <h1>Marketing Research Project Survey</h1>
 
   <form name="marketing-survey" method="POST" data-netlify="true">
+    <!-- Hidden inputs for dynamic data -->
+    <div id="hiddenFields"></div>
+
     <!-- Basic Information -->
     <div class="question" id="step1">
       <label for="name">Name:</label><br>
@@ -61,7 +64,7 @@
 
     <!-- Selected Platforms -->
     <div class="question hidden" id="step2">
-      <label>Do you use digital platforms? It could be your own subscription or a shared subscription (Family/Friends). Select all that apply:</label><br>
+      <label>Do you use digital platforms? Select all that apply:</label><br>
       <input type="checkbox" id="amazon" name="platforms" value="Amazon Prime"> Amazon Prime<br>
       <input type="checkbox" id="netflix" name="platforms" value="Netflix"> Netflix<br>
       <input type="checkbox" id="disney" name="platforms" value="Disney+"> Disney+<br>
@@ -81,11 +84,8 @@
     <div class="question hidden" id="step3">
       <label>For the platforms you selected, answer the following:</label><br>
       <div id="selectedPlatformQuestions"></div>
-
-      <!-- Question: Which platforms does the user pay for? -->
-      <label>Which platforms do you pay for? (If you are using a friend or family member’s account, DO NOT SELECT IT HERE.)</label><br>
+      <label>Which platforms do you pay for? (Do not include shared accounts.)</label><br>
       <div id="paidPlatforms"></div>
-
       <button type="button" onclick="showUnselectedPlatformQuestions()">Next</button>
     </div>
 
@@ -96,112 +96,9 @@
       <button type="button" onclick="goToStep('step4', 'step5')">Next</button>
     </div>
 
-    <!-- Willingness-to-Pay Questions -->
+    <!-- Final Step -->
     <div class="question hidden" id="step5">
-      <h2>Refer to this data before answering the questions:</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Platform</th>
-            <th>Monthly Price</th>
-            <th>Plan Details</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Amazon Prime Video</td>
-            <td>$8.99</td>
-            <td>Standalone Prime Video subscription with ads.</td>
-          </tr>
-          <tr>
-            <td>Netflix</td>
-            <td>$6.99</td>
-            <td>Standard plan with ads.</td>
-          </tr>
-          <tr>
-            <td>Disney+</td>
-            <td>$9.99</td>
-            <td>Basic plan with ads.</td>
-          </tr>
-          <tr>
-            <td>Apple TV+</td>
-            <td>$9.99</td>
-            <td>Single-tier subscription without ads.</td>
-          </tr>
-          <tr>
-            <td>Hulu</td>
-            <td>$7.99</td>
-            <td>Basic plan with ads.</td>
-          </tr>
-          <tr>
-            <td>Peacock</td>
-            <td>$5.99</td>
-            <td>Premium plan with ads.</td>
-          </tr>
-          <tr>
-            <td>ESPN+</td>
-            <td>$9.99</td>
-            <td>Standalone subscription.</td>
-          </tr>
-        </tbody>
-      </table>
-       <p>
-        A pay-per-use service allows users to watch a single movie, TV show, or sports game on digital platforms without needing a full subscription.
-        It provides flexible, on-demand access by letting users pay only for the specific content they want, rather than committing to monthly or yearly plans.
-        This model caters to occasional viewers or those seeking exclusive events, offering a cost-effective alternative for tailored entertainment consumption.
-      </p>
-
-      <label>How much would you be willing to pay for a TV show?</label><br>
-      <select id="wtpShow" name="wtpShow">
-        <option value="0">$0</option>
-        <option value="1">$1</option>
-        <option value="2">$2</option>
-        <option value="3">$3</option>
-        <option value="4">$4</option>
-        <option value="5">$5</option>
-        <option value="6">$6</option>
-        <option value="7">$7</option>
-        <option value="8">$8</option>
-        <option value="9">$9</option>
-        <option value="10">$10</option>
-      </select><br><br>
-
-      <label>How much would you be willing to pay for a movie?</label><br>
-      <select id="wtpMovie" name="wtpMovie">
-        <option value="0">$0</option>
-        <option value="1">$1</option>
-        <option value="2">$2</option>
-        <option value="3">$3</option>
-        <option value="4">$4</option>
-        <option value="5">$5</option>
-        <option value="6">$6</option>
-        <option value="7">$7</option>
-        <option value="8">$8</option>
-        <option value="9">$9</option>
-        <option value="10">$10</option>
-      </select><br><br>
-
-      <label>How much would you be willing to pay for a game?</label><br>
-      <select id="wtpGame" name="wtpGame">
-        <option value="0">$0</option>
-        <option value="1">$1</option>
-        <option value="2">$2</option>
-        <option value="3">$3</option>
-        <option value="4">$4</option>
-        <option value="5">$5</option>
-        <option value="6">$6</option>
-        <option value="7">$7</option>
-        <option value="8">$8</option>
-        <option value="9">$9</option>
-        <option value="10">$10</option>
-      </select><br><br>
-
-      <button type="button" onclick="goToStep('step5', 'step6')">Next</button>
-    </div>
-
-    <!-- Pay-Per-User Service Question -->
-    <div class="question hidden" id="step6">
-      <label>If a pay-per-user service was available for all digital platforms in the US, would you opt for it?</label><br>
+      <label>If a pay-per-use service was available for all digital platforms in the US, would you opt for it?</label><br>
       <label><input type="radio" name="payPerUser" value="YES" required> YES</label><br>
       <label><input type="radio" name="payPerUser" value="NO" required> NO</label><br><br>
 
@@ -230,25 +127,18 @@
         const div = document.createElement("div");
         div.innerHTML = `
           <h3>${platform}</h3>
-          <label>How many movies do you watch on this platform monthly?</label><br>
+          <label>Movies watched monthly:</label>
           <select name="${platform}_movies">
-            <option value="less than 1">Less than 1</option>
-            <option value="1">1</option>
-            <option value="more than 1">More than 1</option>
+            <option value="0">0</option>
+            <option value="1-2">1-2</option>
+            <option value="3+">3+</option>
           </select><br><br>
 
-          <label>How many TV shows do you watch on this platform monthly?</label><br>
+          <label>TV shows watched monthly:</label>
           <select name="${platform}_tvShows">
-            <option value="less than 1">Less than 1</option>
-            <option value="1">1</option>
-            <option value="more than 1">More than 1</option>
-          </select><br><br>
-
-          <label>How many games do you watch on this platform monthly? (only for ESPN+ and Peacock)</label><br>
-          <select name="${platform}_games">
-            <option value="less than 1">Less than 1</option>
-            <option value="1">1</option>
-            <option value="more than 1">More than 1</option>
+            <option value="0">0</option>
+            <option value="1-2">1-2</option>
+            <option value="3+">3+</option>
           </select><br><br>
         `;
         selectedDiv.appendChild(div);
@@ -258,6 +148,17 @@
           <input type="checkbox" name="paidPlatforms" value="${platform}"> ${platform}<br>
         `;
         paidDiv.appendChild(paidCheckbox);
+      });
+
+      // Add selected platforms to hidden fields
+      const hiddenFields = document.getElementById("hiddenFields");
+      hiddenFields.innerHTML = '';
+      selectedPlatforms.forEach(platform => {
+        const input = document.createElement("input");
+        input.type = "hidden";
+        input.name = "selectedPlatforms[]";
+        input.value = platform;
+        hiddenFields.appendChild(input);
       });
 
       goToStep('step2', 'step3');
