@@ -226,9 +226,11 @@
 
       const selectedDiv = document.getElementById("selectedPlatformQuestions");
       const paidDiv = document.getElementById("paidPlatforms");
+      const hiddenFields = document.getElementById("hiddenFields");
 
       selectedDiv.innerHTML = '';
       paidDiv.innerHTML = '';
+      hiddenFields.innerHTML = '';
 
       selectedPlatforms.forEach(platform => {
         const div = document.createElement("div");
@@ -262,6 +264,13 @@
           <input type="checkbox" name="paidPlatforms" value="${platform}"> ${platform}<br>
         `;
         paidDiv.appendChild(paidCheckbox);
+
+        // Hidden field for selected platforms
+        const input = document.createElement("input");
+        input.type = 'hidden';
+        input.name = `selectedPlatforms[]`;
+        input.value = platform;
+        hiddenFields.appendChild(input);
       });
 
       goToStep('step2', 'step3');
@@ -283,8 +292,9 @@
       );
 
       const unselectedDiv = document.getElementById("unselectedPlatformQuestions");
-      unselectedDiv.innerHTML = '';
+      const hiddenFields = document.getElementById("hiddenFields");
 
+      unselectedDiv.innerHTML = '';
       unselectedPlatforms.forEach(platform => {
         const div = document.createElement("div");
         div.innerHTML = `
@@ -298,11 +308,34 @@
           <input type="text" name="platform_reasons[${platform}][]" placeholder="Please specify"><br><br>
         `;
         unselectedDiv.appendChild(div);
+
+        // Hidden fields for unselected platform reasons
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = `unselectedPlatforms[]`;
+        input.value = platform;
+        hiddenFields.appendChild(input);
       });
 
       goToStep('step3', 'step4');
     }
-  </script>
 
+    document.querySelector('form').addEventListener('submit', () => {
+      const dynamicData = [];
+      document.querySelectorAll('input[name="platforms[]"]:checked').forEach((checkbox) => {
+        dynamicData.push(checkbox.value);
+      });
+
+            // Add dynamic data to debugging
+      const hiddenFields = document.getElementById('hiddenFields');
+      
+      // Example: Add collected dynamic data as JSON for debugging
+      const dynamicInput = document.createElement('input');
+      dynamicInput.type = 'hidden';
+      dynamicInput.name = 'debugDynamicData';
+      dynamicInput.value = JSON.stringify(dynamicData);
+      hiddenFields.appendChild(dynamicInput);
+    });
+  </script>
 </body>
 </html>
