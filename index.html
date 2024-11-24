@@ -84,8 +84,11 @@
     <div class="question hidden" id="step3">
       <label>For the platforms you selected, answer the following:</label><br>
       <div id="selectedPlatformQuestions"></div>
-      <label>Which platforms do you pay for? (Do not include shared accounts.)</label><br>
+
+      <!-- Question: Which platforms does the user pay for? -->
+      <label>Which platforms do you pay for? (If you are using a friend or family member’s account, DO NOT SELECT IT HERE.)</label><br>
       <div id="paidPlatforms"></div>
+
       <button type="button" onclick="showUnselectedPlatformQuestions()">Next</button>
     </div>
 
@@ -96,9 +99,112 @@
       <button type="button" onclick="goToStep('step4', 'step5')">Next</button>
     </div>
 
-    <!-- Final Step -->
+    <!-- Willingness-to-Pay Questions -->
     <div class="question hidden" id="step5">
-      <label>If a pay-per-use service was available for all digital platforms in the US, would you opt for it?</label><br>
+      <h2>Refer to this data before answering the questions:</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Platform</th>
+            <th>Monthly Price</th>
+            <th>Plan Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Amazon Prime Video</td>
+            <td>$8.99</td>
+            <td>Standalone Prime Video subscription with ads.</td>
+          </tr>
+          <tr>
+            <td>Netflix</td>
+            <td>$6.99</td>
+            <td>Standard plan with ads.</td>
+          </tr>
+          <tr>
+            <td>Disney+</td>
+            <td>$9.99</td>
+            <td>Basic plan with ads.</td>
+          </tr>
+          <tr>
+            <td>Apple TV+</td>
+            <td>$9.99</td>
+            <td>Single-tier subscription without ads.</td>
+          </tr>
+          <tr>
+            <td>Hulu</td>
+            <td>$7.99</td>
+            <td>Basic plan with ads.</td>
+          </tr>
+          <tr>
+            <td>Peacock</td>
+            <td>$5.99</td>
+            <td>Premium plan with ads.</td>
+          </tr>
+          <tr>
+            <td>ESPN+</td>
+            <td>$9.99</td>
+            <td>Standalone subscription.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+        A pay-per-use service allows users to watch a single movie, TV show, or sports game on digital platforms without needing a full subscription.
+        It provides flexible, on-demand access by letting users pay only for the specific content they want, rather than committing to monthly or yearly plans.
+        This model caters to occasional viewers or those seeking exclusive events, offering a cost-effective alternative for tailored entertainment consumption.
+      </p>
+
+      <label>How much would you be willing to pay for a TV show?</label><br>
+      <select id="wtpShow" name="wtpShow">
+        <option value="0">$0</option>
+        <option value="1">$1</option>
+        <option value="2">$2</option>
+        <option value="3">$3</option>
+        <option value="4">$4</option>
+        <option value="5">$5</option>
+        <option value="6">$6</option>
+        <option value="7">$7</option>
+        <option value="8">$8</option>
+        <option value="9">$9</option>
+        <option value="10">$10</option>
+      </select><br><br>
+
+      <label>How much would you be willing to pay for a movie?</label><br>
+      <select id="wtpMovie" name="wtpMovie">
+        <option value="0">$0</option>
+        <option value="1">$1</option>
+        <option value="2">$2</option>
+        <option value="3">$3</option>
+        <option value="4">$4</option>
+        <option value="5">$5</option>
+        <option value="6">$6</option>
+        <option value="7">$7</option>
+        <option value="8">$8</option>
+        <option value="9">$9</option>
+        <option value="10">$10</option>
+      </select><br><br>
+
+      <label>How much would you be willing to pay for a game?</label><br>
+      <select id="wtpGame" name="wtpGame">
+        <option value="0">$0</option>
+        <option value="1">$1</option>
+        <option value="2">$2</option>
+        <option value="3">$3</option>
+        <option value="4">$4</option>
+        <option value="5">$5</option>
+        <option value="6">$6</option>
+        <option value="7">$7</option>
+        <option value="8">$8</option>
+        <option value="9">$9</option>
+        <option value="10">$10</option>
+      </select><br><br>
+
+      <button type="button" onclick="goToStep('step5', 'step6')">Next</button>
+    </div>
+
+    <!-- Pay-Per-User Service Question -->
+    <div class="question hidden" id="step6">
+      <label>If a pay-per-user service was available for all digital platforms in the US, would you opt for it?</label><br>
       <label><input type="radio" name="payPerUser" value="YES" required> YES</label><br>
       <label><input type="radio" name="payPerUser" value="NO" required> NO</label><br><br>
 
@@ -112,7 +218,8 @@
       document.getElementById(nextStep).classList.remove("hidden");
     }
 
-    function showSelectedPlatformQuestions() {
+    // Include previously defined showSelectedPlatformQuestions() and showUnselectedPlatformQuestions() functions
+     function showSelectedPlatformQuestions() {
       const selectedPlatforms = [];
       document.querySelectorAll('input[name="platforms"]:checked').forEach(checkbox => {
         selectedPlatforms.push(checkbox.value);
@@ -120,25 +227,35 @@
 
       const selectedDiv = document.getElementById("selectedPlatformQuestions");
       const paidDiv = document.getElementById("paidPlatforms");
+      const hiddenFields = document.getElementById("hiddenFields");
+
       selectedDiv.innerHTML = '';
       paidDiv.innerHTML = '';
+      hiddenFields.innerHTML = '';
 
       selectedPlatforms.forEach(platform => {
         const div = document.createElement("div");
         div.innerHTML = `
           <h3>${platform}</h3>
-          <label>Movies watched monthly:</label>
+          <label>How many movies do you watch on this platform monthly?</label><br>
           <select name="${platform}_movies">
-            <option value="0">0</option>
-            <option value="1-2">1-2</option>
-            <option value="3+">3+</option>
+            <option value="less than 1">Less than 1</option>
+            <option value="1">1</option>
+            <option value="more than 1">More than 1</option>
           </select><br><br>
 
-          <label>TV shows watched monthly:</label>
+          <label>How many TV shows do you watch on this platform monthly?</label><br>
           <select name="${platform}_tvShows">
-            <option value="0">0</option>
-            <option value="1-2">1-2</option>
-            <option value="3+">3+</option>
+            <option value="less than 1">Less than 1</option>
+            <option value="1">1</option>
+            <option value="more than 1">More than 1</option>
+          </select><br><br>
+
+          <label>How many games do you watch on this platform monthly? (only for ESPN+ and Peacock)</label><br>
+          <select name="${platform}_games">
+            <option value="less than 1">Less than 1</option>
+            <option value="1">1</option>
+            <option value="more than 1">More than 1</option>
           </select><br><br>
         `;
         selectedDiv.appendChild(div);
@@ -148,12 +265,8 @@
           <input type="checkbox" name="paidPlatforms" value="${platform}"> ${platform}<br>
         `;
         paidDiv.appendChild(paidCheckbox);
-      });
 
-      // Add selected platforms to hidden fields
-      const hiddenFields = document.getElementById("hiddenFields");
-      hiddenFields.innerHTML = '';
-      selectedPlatforms.forEach(platform => {
+        // Add hidden input for selected platforms
         const input = document.createElement("input");
         input.type = "hidden";
         input.name = "selectedPlatforms[]";
@@ -180,6 +293,8 @@
       );
 
       const unselectedDiv = document.getElementById("unselectedPlatformQuestions");
+      const hiddenFields = document.getElementById("hiddenFields");
+
       unselectedDiv.innerHTML = '';
 
       unselectedPlatforms.forEach(platform => {
@@ -194,6 +309,13 @@
           <label>Other:</label> <input type="text" name="${platform}_reason_other" placeholder="Please specify"><br><br>
         `;
         unselectedDiv.appendChild(div);
+
+        // Add hidden input for unselected platforms
+        const input = document.createElement("input");
+        input.type = "hidden";
+        input.name = "unselectedPlatforms[]";
+        input.value = platform;
+        hiddenFields.appendChild(input);
       });
 
       goToStep('step3', 'step4');
